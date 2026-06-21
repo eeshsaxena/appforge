@@ -9,7 +9,7 @@ import { ClientError } from "@/lib/client";
 import { normalizeConfig } from "@/lib/config/normalize";
 import { useCreateApp } from "@/lib/hooks";
 import { BLANK_CONFIG, TEMPLATES } from "@/lib/templates";
-import { Badge, Button, Card, Input, Label } from "@/components/ui";
+import { Badge, Button, Input, Label } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 const OPTIONS = [

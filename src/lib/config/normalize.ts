@@ -217,7 +217,7 @@ function normalizeFields(
       add("error", `${path}.name`, "Field is missing a name. Skipped.");
       return;
     }
-    let key = toIdentifier(rawName);
+    const key = toIdentifier(rawName);
     if (!key) {
       add("error", `${path}.name`, `Field name "${rawName}" is unusable. Skipped.`);
       return;
