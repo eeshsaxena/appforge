@@ -1,0 +1,80 @@
+// AppForge — metadata-driven app runtime
+// Storage strategy: "schema-on-read". App configuration lives in App.config (JSONB)
+// and every user record lives in a single Record table with a JSONB `data` column,
+// scoped by (appId, entity, ownerId). No per-app DDL is ever run, so a broken or
+// changing config can never corrupt the database or break a migration. Validation
+// happens at the application layer (see src/lib/config/validation.ts).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now())
+
+  apps    App[]
+  records Record[]
+}
+
+model App {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String
+  description String?
+  config      Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String
+
+  records      Record[]
+  workflowRuns WorkflowRun[]
+
+  @@unique([ownerId, slug])
+  @@index([ownerId])
+}
+
+model Record {
+  id        String   @id @default(cuid())
+  entity    String
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  app   App    @relation(fields: [appId], references: [id], onDelete: Cascade)
+  appId String
+
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String
+
+  @@index([appId, entity])
+  @@index([appId, entity, ownerId])
+}
+
+model WorkflowRun {
+  id           String   @id @default(cuid())
+  workflowId   String
+  workflowName String
+  trigger      String
+  entity       String
+  recordId     String?
+  status       String // "success" | "error"
+  logs         Json
+  createdAt    DateTime @default(now())
+
+  app   App    @relation(fields: [appId], references: [id], onDelete: Cascade)
+  appId String
+
+  @@index([appId])
+  @@index([appId, createdAt])
+}
