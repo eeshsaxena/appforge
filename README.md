@@ -7,7 +7,8 @@ config-driven workflows are all generated **at runtime** from that config.
 > Internship demo — **Track A (AI App Generator)**, **Full-Stack** role.
 > Reference product: [base44](https://base44.com).
 
-- **Live demo:** _to be added after deploy_
+- **Live demo:** https://appforge-opal-ten.vercel.app
+- **Demo login:** `demo@appforge.dev` / `demo1234` (or sign up — data is per-user)
 - **Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · Prisma · PostgreSQL (Neon) · Vercel
 
 ---
