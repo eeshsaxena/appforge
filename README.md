@@ -145,7 +145,7 @@ prisma/
 ## Local setup
 
 ```bash
-cp .env.example .env        # set DATABASE_URL (Neon) and JWT_SECRET
+cp .env.example .env        # set DATABASE_URL + DIRECT_URL (Neon) and JWT_SECRET
 npm install
 npm run db:push             # create tables
 npm run db:seed             # optional: example apps + demo user
